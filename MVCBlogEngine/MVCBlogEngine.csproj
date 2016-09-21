@@ -52,6 +52,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -168,7 +170,46 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Common\Current.cs" />
+    <Compile Include="DB\BlogEngineDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogEngineDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BlogEngineDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BlogEngineDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogEngineDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Category.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Post.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\PostCategory.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\PostComment.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Role.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\User.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\UserRole.cs">
+      <DependentUpon>BlogEngineDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,12 +220,29 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="DB\BlogEngineDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlogEngineDB.edmx</DependentUpon>
+      <LastGenOutput>BlogEngineDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DB\BlogEngineDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlogEngineDB.edmx</DependentUpon>
+      <LastGenOutput>BlogEngineDB.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="DB\BlogEngineDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BlogEngineDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DB\BlogEngineDB.edmx.diagram">
+      <DependentUpon>BlogEngineDB.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -217,6 +275,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -224,6 +284,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

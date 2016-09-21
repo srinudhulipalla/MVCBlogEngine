@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cee867e234e84ba482b1536be13b13fe" Name="Diagram1">
+        <EntityTypeShape EntityType="BlogEngineModel.Category" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.PostCategory" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.PostComment" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.Post" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.Role" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.UserRole" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogEngineModel.User" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="BlogEngineModel.FK_PostCategories_PostCategories_CategoryId" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_PostCategories_Posts_PostId" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_PostComments_Posts_PostId" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_PostComments_Users_ApprovedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_PostComments_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_Posts_Users_ApprovedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_Posts_Users_AuthorId" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_Posts_Users_UpdatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_UserRoles_Roles_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogEngineModel.FK_UserRoles_Users_UserId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
