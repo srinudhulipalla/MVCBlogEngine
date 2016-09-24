@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PostCommentsController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Common\Current.cs" />
     <Compile Include="DB\BlogEngineDB.Context.cs">
@@ -192,6 +193,7 @@
     <Compile Include="DB\Category.cs">
       <DependentUpon>BlogEngineDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\Partial.cs" />
     <Compile Include="DB\Post.cs">
       <DependentUpon>BlogEngineDB.tt</DependentUpon>
     </Compile>
@@ -276,6 +278,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\PostComments\" />
     <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
