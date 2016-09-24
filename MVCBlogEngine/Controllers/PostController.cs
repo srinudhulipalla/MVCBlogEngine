@@ -24,7 +24,7 @@ namespace MVCBlogEngine.Controllers
             BlogEngineDB.Posts.Add(post);
             BlogEngineDB.SaveChanges();
 
-            SetPostCategories(post.PostId, categoryIds);
+            SetPostCategories(post.PostId, categoryIds); 
 
             return View();
         }
