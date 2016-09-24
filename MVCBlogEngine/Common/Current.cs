@@ -9,11 +9,16 @@ namespace MVCBlogEngine.Common
 {
     public class Current
     {
+        private static int _userId;
         public static int UserId
         {
             get
             {
-                return 0;
+                return _userId;
+            }
+            set
+            {
+                _userId = value;
             }
         }
 

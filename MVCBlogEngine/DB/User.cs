@@ -17,22 +17,18 @@ namespace MVCBlogEngine.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.PostComments = new HashSet<PostComment>();
-            this.PostComments1 = new HashSet<PostComment>();
             this.Posts = new HashSet<Post>();
             this.Posts1 = new HashSet<Post>();
             this.Posts2 = new HashSet<Post>();
             this.UserRoles = new HashSet<UserRole>();
+            this.PostComments = new HashSet<PostComment>();
+            this.PostComments1 = new HashSet<PostComment>();
         }
     
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PostComment> PostComments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PostComment> PostComments1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,5 +37,9 @@ namespace MVCBlogEngine.DB
         public virtual ICollection<Post> Posts2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PostComment> PostComments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PostComment> PostComments1 { get; set; }
     }
 }

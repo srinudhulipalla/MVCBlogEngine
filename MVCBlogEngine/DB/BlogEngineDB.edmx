@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BlogEngineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BlogEngineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -28,11 +28,13 @@
           <Property Name="PostId" Type="int" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
           <Property Name="IsPublished" Type="bit" Nullable="false" />
+          <Property Name="PublishedDate" Type="datetime" />
           <Property Name="ApprovedBy" Type="int" />
         </EntityType>
         <EntityType Name="Posts">
@@ -245,8 +247,7 @@
             <End Role="UserRoles" EntitySet="UserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BlogEngineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -268,24 +269,6 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_PostCategories_PostCategories_CategoryId" FromRole="PostCategories" ToRole="Categories" />
           <NavigationProperty Name="Post" Relationship="Self.FK_PostCategories_Posts_PostId" FromRole="PostCategories" ToRole="Posts" />
         </EntityType>
-        <EntityType Name="PostComment">
-          <Key>
-            <PropertyRef Name="CommentId" />
-          </Key>
-          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PostId" Type="Int32" Nullable="false" />
-          <Property Name="Comment" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedBy" Type="Int32" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_PostComments_Posts_PostId" FromRole="PostComments" ToRole="Posts" />
-          <NavigationProperty Name="User" Relationship="Self.FK_PostComments_Users_ApprovedBy" FromRole="PostComments" ToRole="Users" />
-          <NavigationProperty Name="User1" Relationship="Self.FK_PostComments_Users_CreatedBy" FromRole="PostComments" ToRole="Users" />
-        </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="PostId" />
@@ -304,10 +287,10 @@
           <Property Name="AllowComments" Type="Boolean" />
           <Property Name="ViewCount" Type="Int32" />
           <NavigationProperty Name="PostCategories" Relationship="Self.FK_PostCategories_Posts_PostId" FromRole="Posts" ToRole="PostCategories" />
-          <NavigationProperty Name="PostComments" Relationship="Self.FK_PostComments_Posts_PostId" FromRole="Posts" ToRole="PostComments" />
           <NavigationProperty Name="User" Relationship="Self.FK_Posts_Users_ApprovedBy" FromRole="Posts" ToRole="Users" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Posts_Users_AuthorId" FromRole="Posts" ToRole="Users" />
           <NavigationProperty Name="User2" Relationship="Self.FK_Posts_Users_UpdatedBy" FromRole="Posts" ToRole="Users" />
+          <NavigationProperty Name="PostComments" Relationship="BlogEngineModel.FK_PostComments_Posts_PostId" FromRole="Post" ToRole="PostComment" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -334,13 +317,13 @@
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PostComments" Relationship="Self.FK_PostComments_Users_ApprovedBy" FromRole="Users" ToRole="PostComments" />
-          <NavigationProperty Name="PostComments1" Relationship="Self.FK_PostComments_Users_CreatedBy" FromRole="Users" ToRole="PostComments" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Users_ApprovedBy" FromRole="Users" ToRole="Posts" />
           <NavigationProperty Name="Posts1" Relationship="Self.FK_Posts_Users_AuthorId" FromRole="Users" ToRole="Posts" />
           <NavigationProperty Name="Posts2" Relationship="Self.FK_Posts_Users_UpdatedBy" FromRole="Users" ToRole="Posts" />
           <NavigationProperty Name="UserRoles" Relationship="Self.FK_UserRoles_Users_UserId" FromRole="Users" ToRole="UserRoles" />
-        </EntityType>
+          <NavigationProperty Name="PostComments" Relationship="BlogEngineModel.FK_PostComments_Users_ApprovedBy" FromRole="User" ToRole="PostComment" />
+          <NavigationProperty Name="PostComments1" Relationship="BlogEngineModel.FK_PostComments_Users_CreatedBy" FromRole="User" ToRole="PostComment" />
+          </EntityType>
         <Association Name="FK_PostCategories_PostCategories_CategoryId">
           <End Role="Categories" Type="Self.Category" Multiplicity="1" />
           <End Role="PostCategories" Type="Self.PostCategory" Multiplicity="*" />
@@ -362,42 +345,6 @@
             </Principal>
             <Dependent Role="PostCategories">
               <PropertyRef Name="PostId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PostComments_Posts_PostId">
-          <End Role="Posts" Type="Self.Post" Multiplicity="1" />
-          <End Role="PostComments" Type="Self.PostComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Posts">
-              <PropertyRef Name="PostId" />
-            </Principal>
-            <Dependent Role="PostComments">
-              <PropertyRef Name="PostId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PostComments_Users_ApprovedBy">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="PostComments" Type="Self.PostComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="PostComments">
-              <PropertyRef Name="ApprovedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PostComments_Users_CreatedBy">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="PostComments" Type="Self.PostComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="PostComments">
-              <PropertyRef Name="CreatedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -464,7 +411,6 @@
         <EntityContainer Name="BlogEngineEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="PostCategories" EntityType="Self.PostCategory" />
-          <EntitySet Name="PostComments" EntityType="Self.PostComment" />
           <EntitySet Name="Posts" EntityType="Self.Post" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
@@ -476,18 +422,6 @@
           <AssociationSet Name="FK_PostCategories_Posts_PostId" Association="Self.FK_PostCategories_Posts_PostId">
             <End Role="Posts" EntitySet="Posts" />
             <End Role="PostCategories" EntitySet="PostCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PostComments_Posts_PostId" Association="Self.FK_PostComments_Posts_PostId">
-            <End Role="Posts" EntitySet="Posts" />
-            <End Role="PostComments" EntitySet="PostComments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PostComments_Users_ApprovedBy" Association="Self.FK_PostComments_Users_ApprovedBy">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="PostComments" EntitySet="PostComments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PostComments_Users_CreatedBy" Association="Self.FK_PostComments_Users_CreatedBy">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="PostComments" EntitySet="PostComments" />
           </AssociationSet>
           <AssociationSet Name="FK_Posts_Users_ApprovedBy" Association="Self.FK_Posts_Users_ApprovedBy">
             <End Role="Users" EntitySet="Users" />
@@ -509,8 +443,77 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserRoles" EntitySet="UserRoles" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="PostComments" EntityType="BlogEngineModel.PostComment" />
+          <AssociationSet Name="FK_PostComments_Posts_PostId" Association="BlogEngineModel.FK_PostComments_Posts_PostId">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostComment" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Users_ApprovedBy" Association="BlogEngineModel.FK_PostComments_Users_ApprovedBy">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PostComment" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Users_CreatedBy" Association="BlogEngineModel.FK_PostComments_Users_CreatedBy">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PostComment" EntitySet="PostComments" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="PostComment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+          <Property Name="PublishedDate" Type="DateTime" Precision="3" />
+          <Property Name="ApprovedBy" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="BlogEngineModel.FK_PostComments_Posts_PostId" FromRole="PostComment" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="BlogEngineModel.FK_PostComments_Users_ApprovedBy" FromRole="PostComment" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="BlogEngineModel.FK_PostComments_Users_CreatedBy" FromRole="PostComment" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_PostComments_Posts_PostId">
+          <End Type="BlogEngineModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="BlogEngineModel.PostComment" Role="PostComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostId" />
+            </Principal>
+            <Dependent Role="PostComment">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Users_ApprovedBy">
+          <End Type="BlogEngineModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BlogEngineModel.PostComment" Role="PostComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PostComment">
+              <PropertyRef Name="ApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Users_CreatedBy">
+          <End Type="BlogEngineModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BlogEngineModel.PostComment" Role="PostComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PostComment">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -530,22 +533,6 @@
                 <ScalarProperty Name="PostCategoryId" ColumnName="PostCategoryId" />
                 <ScalarProperty Name="PostId" ColumnName="PostId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PostComments">
-            <EntityTypeMapping TypeName="BlogEngineModel.PostComment">
-              <MappingFragment StoreEntitySet="PostComments">
-                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
-                <ScalarProperty Name="PostId" ColumnName="PostId" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
-                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -591,6 +578,24 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostComments">
+            <EntityTypeMapping TypeName="BlogEngineModel.PostComment">
+              <MappingFragment StoreEntitySet="PostComments">
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="PublishedDate" ColumnName="PublishedDate" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

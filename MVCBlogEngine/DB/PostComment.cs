@@ -18,11 +18,13 @@ namespace MVCBlogEngine.DB
         public int PostId { get; set; }
         public string Comment { get; set; }
         public string Source { get; set; }
+        public string Username { get; set; }
         public System.DateTime Created { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public bool IsPublished { get; set; }
+        public Nullable<System.DateTime> PublishedDate { get; set; }
         public Nullable<int> ApprovedBy { get; set; }
     
         public virtual Post Post { get; set; }

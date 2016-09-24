@@ -92,6 +92,12 @@ namespace MVCBlogEngine.Controllers
 
         public bool PublishPost(int postId)
         {
+            var post = BlogEngineDB.Posts.FirstOrDefault(p => p.PostId == postId);
+            post.IsPublished = true;
+            post.ApprovedBy = Current.UserId;
+            post.PublishedDate = DateTime.Now;
+            BlogEngineDB.SaveChanges();
+
             return true;
         }
     }
